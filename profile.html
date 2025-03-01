@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to your profile</h1>
+        <p id="usernameDisplay"></p>
+        <button id="logoutButton" class="btn glow-on-hover">Log out</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const response = await fetch('/profile-data');
+            const result = await response.json();
+            if (result.success) {
+                document.getElementById('usernameDisplay').innerText = `Username: ${result.username}`;
+            } else {
+                window.location.href = '/';
+            }
+        });
+
+        document.getElementById('logoutButton').addEventListener('click', async function() {
+            await fetch('/logout', { method: 'POST' });
+            window.location.href = '/';
+        });
+    </script>
+</body>
+</html>
